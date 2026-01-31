@@ -62,7 +62,7 @@ public abstract class CreativeInventoryScreenMixin extends AbstractContainerScre
 		}
 	}
 
-	@Inject(at = @At(value = "INVOKE", target = "net/minecraft/screen/slot/Slot.<init>(Lnet/minecraft/inventory/Inventory;III)V"), method = "selectTab")
+	@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/inventory/Slot;<init>(Lnet/minecraft/world/Container;III)V"), method = "selectTab")
 	private void addCreativeTrinketSlots(CreativeModeTab g, CallbackInfo info) {
 		TrinketPlayerScreenHandler handler = trinkets$getHandler();
 		for (int i = handler.trinkets$getTrinketSlotStart(); i < handler.trinkets$getTrinketSlotEnd(); i++) {
@@ -76,7 +76,7 @@ public abstract class CreativeInventoryScreenMixin extends AbstractContainerScre
 				}
 				int xOff = rect.getX() + 1 - pos.x();
 				int yOff = rect.getY() + 1 - pos.y();
-				((ItemPickerMenu) this.menu).slots.add(new CreativeTrinketSlot(ts, ts.getContainerSlot(), ts.x + xOff, ts.y + yOff));
+				this.menu.slots.add(new CreativeTrinketSlot(ts, ts.getContainerSlot(), ts.x + xOff, ts.y + yOff));
 			}
 		}
 	}
