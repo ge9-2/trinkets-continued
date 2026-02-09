@@ -15,6 +15,7 @@ import java.util.Set;
 import dev.emi.trinkets.payload.SyncInventoryPayload;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.Connection;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.CommonListenerCookie;
 import net.minecraft.server.players.PlayerList;
@@ -49,8 +50,9 @@ public abstract class PlayerManagerMixin {
 		});
 	}
 
-	@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerPlayer;initInventoryMenu()V"), method = "respawn")
-	private void onPlayerRespawn(ServerPlayer player, boolean alive, Entity.RemovalReason removalReason, CallbackInfoReturnable<ServerPlayer> cir, @Local(ordinal = 1) ServerPlayer newServerPlayer) {
-		((TrinketPlayerScreenHandler) newServerPlayer.inventoryMenu).trinkets$updateTrinketSlots(true);
-	}
+    @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerPlayer;initInventoryMenu()V"), method = "respawn")
+    private void onPlayerRespawn(ServerPlayer player, boolean alive, Entity.RemovalReason removalReason, CallbackInfoReturnable<ServerPlayer> cir, @Local(ordinal = 1) ServerPlayer newServerPlayer) {
+        ServerLevel level = newServerPlayer.level();
+        level.getServer().execute(() -> level.getServer().execute(() -> ((TrinketPlayerScreenHandler) newServerPlayer.inventoryMenu).trinkets$updateTrinketSlots(true)));
+    }
 }
