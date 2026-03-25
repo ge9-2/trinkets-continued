@@ -66,9 +66,9 @@ public class TrinketsMain implements ModInitializer, EntityComponentInitializer 
 			return InteractionResult.PASS;
 		});
 		Registry.register(BuiltInRegistries.DATA_COMPONENT_TYPE, Identifier.fromNamespaceAndPath(MOD_ID, "attribute_modifiers"), TrinketsAttributeModifiersComponent.TYPE);
-		PayloadTypeRegistry.playS2C().register(TrinketsNetwork.BREAK, BreakPayload.CODEC);
-		PayloadTypeRegistry.playS2C().register(TrinketsNetwork.SYNC_INVENTORY, SyncInventoryPayload.CODEC);
-		PayloadTypeRegistry.playS2C().register(TrinketsNetwork.SYNC_SLOTS, SyncSlotsPayload.CODEC);
+		PayloadTypeRegistry.clientboundPlay().register(TrinketsNetwork.BREAK, BreakPayload.CODEC);
+		PayloadTypeRegistry.clientboundPlay().register(TrinketsNetwork.SYNC_INVENTORY, SyncInventoryPayload.CODEC);
+		PayloadTypeRegistry.clientboundPlay().register(TrinketsNetwork.SYNC_SLOTS, SyncSlotsPayload.CODEC);
 		CommandRegistrationCallback.EVENT.register((dispatcher, registry, env) ->
 			dispatcher.register(literal("trinkets")
 				.requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
@@ -144,7 +144,7 @@ public class TrinketsMain implements ModInitializer, EntityComponentInitializer 
 					SlotType slotType = slotGroup.getSlots().getOrDefault(slot, null);
 					if (slotType != null) {
 						if (offset >= 0 && offset < slotType.getAmount()) {
-							comp.getInventory().get(group).get(slot).setItem(offset, stack.createItemStack(amount, true));
+							comp.getInventory().get(group).get(slot).setItem(offset, stack.createItemStack(amount));
 							return Command.SINGLE_SUCCESS;
 						} else {
 							context.getSource().sendFailure(Component.literal(offset + " offset does not exist for slot"));

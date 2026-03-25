@@ -55,12 +55,12 @@
 			"dev.emi.trinkets.TrinketsMain"
 		]
 	},
-	"accessWidener": "trinkets.accesswidener",
+	"accessWidener": "trinkets.classtweaker",
 	"mixins": [
 		"trinkets.mixins.json"
 	],
 	"depends": {
-		"minecraft": "1.21.11",
+		"minecraft": ">=26.1 <26.2",
 		"fabricloader": "*",
 		"cardinal-components-base": "*",
 		"cardinal-components-entity": "*",

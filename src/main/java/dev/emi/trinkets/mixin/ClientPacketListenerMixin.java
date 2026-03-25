@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  * @author C4
  */
 @Mixin(ClientPacketListener.class)
-public class ClientPlayNetworkHandlerMixin {
+public class ClientPacketListenerMixin {
 
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;setId(I)V"), method = "handleRespawn")
     private void onPlayerRespawn(ClientboundRespawnPacket packet, CallbackInfo info, @Local(ordinal = 0) LocalPlayer clientPlayerEntity, @Local(ordinal = 1) LocalPlayer clientPlayerEntity2)  {

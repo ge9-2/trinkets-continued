@@ -34,7 +34,7 @@ import dev.emi.trinkets.api.SlotType;
 import dev.emi.trinkets.api.TrinketComponent;
 import dev.emi.trinkets.api.TrinketInventory;
 import dev.emi.trinkets.api.TrinketsApi;
-import dev.emi.trinkets.mixin.accessor.ScreenHandlerAccessor;
+import dev.emi.trinkets.mixin.accessor.AbstractContainerMenuAccessor;
 
 /**
  * Adds trinket slots to the player's screen handler
@@ -42,7 +42,7 @@ import dev.emi.trinkets.mixin.accessor.ScreenHandlerAccessor;
  * @author Emi
  */
 @Mixin(InventoryMenu.class)
-public abstract class PlayerScreenHandlerMixin extends AbstractContainerMenu implements TrinketPlayerScreenHandler {
+public abstract class InventoryMenuMixin extends AbstractContainerMenu implements TrinketPlayerScreenHandler {
 	@Shadow @Final
 	private Player owner;
 
@@ -65,7 +65,7 @@ public abstract class PlayerScreenHandlerMixin extends AbstractContainerMenu imp
 	@Unique
 	private Inventory inventory;
 
-	private PlayerScreenHandlerMixin() {
+	private InventoryMenuMixin() {
 		super(null, 0);
 	}
 
@@ -85,8 +85,8 @@ public abstract class PlayerScreenHandlerMixin extends AbstractContainerMenu imp
 			groupPos.clear();
 			while (trinketSlotStart < trinketSlotEnd) {
 				slots.remove(trinketSlotStart);
-				((ScreenHandlerAccessor) (this)).getLastSlots().remove(trinketSlotStart);
-				((ScreenHandlerAccessor) (this)).getRemoteSlots().remove(trinketSlotStart);
+				((AbstractContainerMenuAccessor) (this)).getLastSlots().remove(trinketSlotStart);
+				((AbstractContainerMenuAccessor) (this)).getRemoteSlots().remove(trinketSlotStart);
 				trinketSlotEnd--;
 			}
 

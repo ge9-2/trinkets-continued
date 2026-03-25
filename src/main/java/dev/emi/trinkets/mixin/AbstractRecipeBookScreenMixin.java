@@ -2,7 +2,7 @@ package dev.emi.trinkets.mixin;
 
 import dev.emi.trinkets.TrinketScreenManager;
 import dev.emi.trinkets.TrinketSlot;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.AbstractRecipeBookScreen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
@@ -20,11 +20,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(AbstractRecipeBookScreen.class)
-public abstract class RecipeBookScreenMixin extends AbstractContainerScreen<RecipeBookMenu> {
+public abstract class AbstractRecipeBookScreenMixin extends AbstractContainerScreen<RecipeBookMenu> {
     @Unique
     private static final Identifier SLOT_HIGHLIGHT_FRONT_TEXTURE = Identifier.withDefaultNamespace("container/slot_highlight_front");
 
-    public RecipeBookScreenMixin(RecipeBookMenu handler, Inventory inventory, Component title) {
+    public AbstractRecipeBookScreenMixin(RecipeBookMenu handler, Inventory inventory, Component title) {
         super(handler, inventory, title);
     }
 
@@ -36,23 +36,23 @@ public abstract class RecipeBookScreenMixin extends AbstractContainerScreen<Reci
         }
     }
 
-    @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/inventory/AbstractRecipeBookScreen;renderCarriedItem(Lnet/minecraft/client/gui/GuiGraphics;II)V", shift = At.Shift.BEFORE),
-            method = "render")
-    private void drawForeground(GuiGraphics context, int mouseX, int mouseY, float deltaTicks, CallbackInfo ci) {
+    @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/inventory/AbstractRecipeBookScreen;extractCarriedItem(Lnet/minecraft/client/gui/GuiGraphicsExtractor;II)V", shift = At.Shift.BEFORE),
+            method = "extractRenderState")
+    private void drawForeground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float deltaTicks, CallbackInfo ci) {
         if (((Object) this) instanceof InventoryScreen) {
-            context.pose().pushMatrix();
-            context.pose().translate(this.leftPos, this.topPos);
-            TrinketScreenManager.drawActiveGroup(context);
+            graphics.pose().pushMatrix();
+            graphics.pose().translate(this.leftPos, this.topPos);
+            TrinketScreenManager.drawActiveGroup(graphics);
 
             for (Slot slot : this.menu.slots) {
                 if (slot instanceof TrinketSlot trinketSlot && trinketSlot.renderAfterRegularSlots() && slot.isActive()) {
-                    this.renderSlot(context, slot, mouseX, mouseY);
+                    this.extractSlot(graphics, slot, mouseX, mouseY);
                     if (slot == this.hoveredSlot && slot.isHighlightable()) {
-                        context.blitSprite(RenderPipelines.GUI_TEXTURED, SLOT_HIGHLIGHT_FRONT_TEXTURE, this.hoveredSlot.x - 4, this.hoveredSlot.y - 4, 24, 24);
+                        graphics.blitSprite(RenderPipelines.GUI_TEXTURED, SLOT_HIGHLIGHT_FRONT_TEXTURE, this.hoveredSlot.x - 4, this.hoveredSlot.y - 4, 24, 24);
                     }
                 }
             }
-            context.pose().popMatrix();
+            graphics.pose().popMatrix();
         }
     }
 }

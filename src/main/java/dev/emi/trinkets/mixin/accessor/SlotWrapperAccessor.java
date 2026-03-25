@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
  * You'll access widen this into being accessible but won't make its field accessible? Yes.
  */
 @Mixin(SlotWrapper.class)
-public interface CreativeSlotAccessor {
+public interface SlotWrapperAccessor {
 	
 	@Accessor("target")
 	public Slot getSlot();

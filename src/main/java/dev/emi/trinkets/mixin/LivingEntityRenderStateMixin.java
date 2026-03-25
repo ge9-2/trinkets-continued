@@ -15,7 +15,7 @@ import java.util.List;
 
 @Environment(EnvType.CLIENT)
 @Mixin(LivingEntityRenderState.class)
-public class LivingEntityStateRenderMixin implements TrinketEntityRenderState {
+public class LivingEntityRenderStateMixin implements TrinketEntityRenderState {
 
     @Unique
     private List<Tuple<ItemStack, SlotReference>> trinketsState = new ArrayList<>();

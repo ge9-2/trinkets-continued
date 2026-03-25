@@ -1,7 +1,7 @@
 package dev.emi.trinkets;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 
 public interface CreativeTrinketScreen {
-    void trinkets$renderCreative(GuiGraphics context, int mouseX, int mouseY, float deltaTicks);
+    void trinkets$renderCreative(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float deltaTicks);
 }

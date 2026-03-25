@@ -5,7 +5,7 @@ import dev.emi.trinkets.api.SlotReference;
 import dev.emi.trinkets.api.SlotType;
 import dev.emi.trinkets.api.TrinketInventory;
 import dev.emi.trinkets.api.TrinketsApi;
-import dev.emi.trinkets.mixin.accessor.RecipeBookScreenAccessor;
+import dev.emi.trinkets.mixin.accessor.AbstractRecipeBookScreenAccessor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
@@ -56,7 +56,7 @@ public class SurvivalTrinketSlot extends Slot implements TrinketSlot {
 					Minecraft client = Minecraft.getInstance();
 					Screen s = client.screen;
 					if (s instanceof InventoryScreen screen) {
-						if (((RecipeBookScreenAccessor) screen).getRecipeBookComponent().isVisible()) {
+						if (((AbstractRecipeBookScreenAccessor) screen).getRecipeBookComponent().isVisible()) {
 							return false;
 						}
 					}

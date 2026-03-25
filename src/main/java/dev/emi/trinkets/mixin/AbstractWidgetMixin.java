@@ -1,7 +1,7 @@
 package dev.emi.trinkets.mixin;
 
 import dev.emi.trinkets.TrinketsClient;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.input.MouseButtonEvent;
 import org.objectweb.asm.Opcodes;
@@ -19,14 +19,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
  * @author Emi
  */
 @Mixin(AbstractWidget.class)
-public abstract class ClickableWidgetMixin {
+public abstract class AbstractWidgetMixin {
 
 	@Shadow
 	protected boolean isHovered;
 	
 	@Inject(at = @At(value = "FIELD", target = "Lnet/minecraft/client/gui/components/AbstractWidget;isHovered:Z",
-			opcode = Opcodes.PUTFIELD, ordinal = 0, shift = Shift.AFTER), method = "render")
-	private void render(GuiGraphics context, int mouseX, int mouseY, float delta, CallbackInfo info) {
+			opcode = Opcodes.PUTFIELD, ordinal = 0, shift = Shift.AFTER), method = "extractRenderState")
+	private void render(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta, CallbackInfo info) {
 		if (TrinketsClient.activeGroup != null) {
 			isHovered = false;
 		}
