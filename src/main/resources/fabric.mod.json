@@ -2,7 +2,7 @@
 	"schemaVersion": 1,
 	"id": "trinkets",
 	"version": "${version}",
-	"name": "Trinkets Canary",
+	"name": "Trinkets Continued",
 	"description": "Adds a data-driven accessory system to Minecraft",
 	"authors": [
 		{
