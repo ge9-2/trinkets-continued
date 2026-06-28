@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-
+import com.mojang.datafixers.util.Pair;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
@@ -19,6 +19,7 @@ import dev.emi.trinkets.api.TrinketSaveData;
 import dev.emi.trinkets.api.event.TrinketEquipCallback;
 import dev.emi.trinkets.api.event.TrinketUnequipCallback;
 import dev.emi.trinkets.payload.SyncInventoryPayload;
+import net.minecraft.world.entity.EntityTypes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -37,7 +38,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.util.Tuple;
+
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -74,8 +75,8 @@ public abstract class LivingEntityMixin extends Entity {
 	private void canFreeze(CallbackInfoReturnable<Boolean> cir) {
         Optional<TrinketComponent> component = TrinketsApi.getTrinketComponent((LivingEntity) (Object) this);
 		if (component.isPresent()) {
-			for (Tuple<SlotReference, ItemStack> equipped : component.get().getAllEquipped()) {
-				if (equipped.getB().is(ItemTags.FREEZE_IMMUNE_WEARABLES)) {
+			for (Pair<SlotReference, ItemStack> equipped : component.get().getAllEquipped()) {
+				if (equipped.getSecond().is(ItemTags.FREEZE_IMMUNE_WEARABLES)) {
 					cir.setReturnValue(false);
 					break;
 				}
@@ -104,7 +105,7 @@ public abstract class LivingEntityMixin extends Entity {
 			}
 
 			if (dropRule == DropRule.DEFAULT) {
-				if (keepInv && entity.getType() == EntityType.PLAYER) {
+				if (keepInv && entity.getType() == EntityTypes.PLAYER) {
 					dropRule = DropRule.KEEP;
 				} else {
 					if (EnchantmentHelper.has(stack, EnchantmentEffectComponents.PREVENT_EQUIPMENT_DROP)) {

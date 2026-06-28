@@ -15,6 +15,7 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 
 import com.mojang.serialization.DynamicOps;
+import com.mojang.datafixers.util.Pair;
 import dev.emi.trinkets.TrinketModifiers;
 import dev.emi.trinkets.TrinketPlayerScreenHandler;
 import net.minecraft.core.Holder;
@@ -27,7 +28,6 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.ProblemReporter;
-import net.minecraft.util.Tuple;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -351,11 +351,11 @@ public class LivingEntityTrinketComponent implements TrinketComponent, AutoSynce
 	}
 
 	@Override
-	public List<Tuple<SlotReference, ItemStack>> getEquipped(Predicate<ItemStack> predicate) {
-		List<Tuple<SlotReference, ItemStack>> list = new ArrayList<>();
+	public List<Pair<SlotReference, ItemStack>> getEquipped(Predicate<ItemStack> predicate) {
+		List<Pair<SlotReference, ItemStack>> list = new ArrayList<>();
 		forEach((slotReference, itemStack) -> {
 			if (predicate.test(itemStack)) {
-				list.add(new Tuple<>(slotReference, itemStack));
+				list.add(Pair.of(slotReference, itemStack));
 			}
 		});
 		return list;

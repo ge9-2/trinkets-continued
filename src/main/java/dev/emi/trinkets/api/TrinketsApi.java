@@ -8,6 +8,7 @@ import dev.emi.trinkets.TrinketSlotTarget;
 import dev.emi.trinkets.TrinketsMain;
 import dev.emi.trinkets.data.EntitySlotLoader;
 import dev.emi.trinkets.payload.BreakPayload;
+import net.minecraft.world.entity.EntityTypes;
 import org.ladysnake.cca.api.v3.component.ComponentKey;
 import org.ladysnake.cca.api.v3.component.ComponentRegistryV3;
 import net.fabricmc.api.EnvType;
@@ -91,14 +92,14 @@ public class TrinketsApi {
 	 */
 	@Deprecated
 	public static Map<String, SlotGroup> getPlayerSlots() {
-		return getEntitySlots(EntityType.PLAYER);
+		return getEntitySlots(EntityTypes.PLAYER);
 	}
 
 	/**
 	 * @return A sided map of slot group names to slot groups available for players
 	 */
 	public static Map<String, SlotGroup> getPlayerSlots(Level world) {
-		return getEntitySlots(world, EntityType.PLAYER);
+		return getEntitySlots(world, EntityTypes.PLAYER);
 	}
 
 	/**

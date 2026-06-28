@@ -1,6 +1,7 @@
 package dev.emi.trinkets;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.datafixers.util.Pair;
 import dev.emi.trinkets.api.SlotReference;
 import dev.emi.trinkets.api.TrinketComponent;
 import dev.emi.trinkets.api.TrinketsApi;
@@ -14,7 +15,6 @@ import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
-import net.minecraft.util.Tuple;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 
@@ -29,8 +29,8 @@ public class TrinketFeatureRenderer<T extends LivingEntityRenderState, M extends
 		if (component.isEmpty()) {
 			state.trinkets$setState(List.of());
 		} else {
-			List<Tuple<ItemStack, SlotReference>> items = new ArrayList<>();
-			component.get().forEach((slotReference, stack) -> items.add(new Tuple<>(stack, slotReference)));
+			List<Pair<ItemStack, SlotReference>> items = new ArrayList<>();
+			component.get().forEach((slotReference, stack) -> items.add(Pair.of(stack, slotReference)));
 			state.trinkets$setState(items);
 		}
 	}
@@ -38,9 +38,9 @@ public class TrinketFeatureRenderer<T extends LivingEntityRenderState, M extends
 	@Override
 	public void submit(PoseStack matrices, SubmitNodeCollector queue, int light, T state, float limbAngle, float limbDistance) {
 		((TrinketEntityRenderState) state).trinkets$getState().forEach(pair -> {
-			TrinketRendererRegistry.getRenderer(pair.getA().getItem()).ifPresent(renderer -> {
+			TrinketRendererRegistry.getRenderer(pair.getFirst().getItem()).ifPresent(renderer -> {
 				matrices.pushPose();
-				renderer.render(pair.getA(), pair.getB(), this.getParentModel(), matrices, queue,
+				renderer.render(pair.getFirst(), pair.getSecond(), this.getParentModel(), matrices, queue,
 						light, state, limbAngle, limbDistance);
 				matrices.popPose();
 			});

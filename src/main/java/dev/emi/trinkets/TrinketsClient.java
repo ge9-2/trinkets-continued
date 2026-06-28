@@ -75,7 +75,7 @@ public class TrinketsClient implements ClientModInitializer {
 				((TrinketPlayerScreenHandler) player.inventoryMenu).trinkets$updateTrinketSlots(true);
 
 				Minecraft client = context.client();
-				if (client.screen instanceof TrinketScreen trinketScreen) {
+				if (client.gui.screen() instanceof TrinketScreen trinketScreen) {
 					trinketScreen.trinkets$updateTrinketSlots();
 				}
 

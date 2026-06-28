@@ -2,13 +2,13 @@ package dev.emi.trinkets.api;
 
 import com.google.common.collect.Multimap;
 
+import com.mojang.datafixers.util.Pair;
 import org.ladysnake.cca.api.v3.component.ComponentV3;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Predicate;
-import net.minecraft.util.Tuple;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.Item;
@@ -57,19 +57,19 @@ public interface TrinketComponent extends ComponentV3 {
 	/**
 	 * @return All slots that match the provided predicate
 	 */
-	List<Tuple<SlotReference, ItemStack>> getEquipped(Predicate<ItemStack> predicate);
+	List<Pair<SlotReference, ItemStack>> getEquipped(Predicate<ItemStack> predicate);
 
 	/**
 	 * @return All slots that contain the provided item
 	 */
-	default List<Tuple<SlotReference, ItemStack>> getEquipped(Item item) {
+	default List<Pair<SlotReference, ItemStack>> getEquipped(Item item) {
 		return getEquipped(stack -> stack.getItem() == item);
 	}
 
 	/**
 	 * @return All non-empty slots
 	 */
-	default List<Tuple<SlotReference, ItemStack>> getAllEquipped() {
+	default List<Pair<SlotReference, ItemStack>> getAllEquipped() {
 		return getEquipped(stack -> !stack.isEmpty());
 	}
 
